@@ -1,0 +1,9 @@
+displayName: Cloudfront headers with device info from User Agent
+
+summary: "Parses User-Agent header to retrieve device information and pass it upstream via HTTP Headers like Cloudfront"
+
+type: middleware
+
+import: github.com/davewhit3/traefik-cf-device-detector
+
+testData: {}

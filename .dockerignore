@@ -1,0 +1,7 @@
+.git/
+.github/
+vendor/
+
+.gitignore
+.golangci.yml
+mkdocs.yml

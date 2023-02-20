@@ -1,0 +1,17 @@
+ARG PLUGIN_MODULE=github.com/davewhit3/traefik-cf-device-detector
+
+FROM golang:1.19-alpine as base
+
+WORKDIR /app
+
+COPY . .
+
+RUN go mod vendor
+
+FROM traefik:2.9
+
+ARG PLUGIN_MODULE
+
+COPY --from=base /app ./plugins-local/src/${PLUGIN_MODULE}
+
+RUN find /plugins-local
