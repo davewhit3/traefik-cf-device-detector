@@ -73,7 +73,7 @@ issues:
       text: "ST1003:"
     - linters:
        - revive
-      text: "var-naming:"
+      text: "var-naming: don't use an underscore in package name"
     - path: (.+)_test.go
       linters:
         - goconst
