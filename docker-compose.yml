@@ -13,7 +13,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
 
-      - "--experimental.localPlugins.cfdevicedetect.modulename=github.com/davewhit3/traefik-cf-device-detector"
+      - "--experimental.plugins.traefik-cf-device-detector.modulename=github.com/davewhit3/traefik-cf-device-detector"
+      - "--experimental.plugins.traefik-cf-device-detector.version=v0.0.2"
     ports:
       - "80:80"
       - "8080:8080"
@@ -27,7 +28,7 @@ services:
     container_name: "simple-service"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.middlewares.cfdevicedetect.plugin.cfdevicedetect.autodetect=true"
+      - "traefik.http.middlewares.cfdevicedetect.plugin.traefik-cf-device-detector.autodetect=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
       - "traefik.http.routers.whoami.middlewares=cfdevicedetect@docker"
       - "traefik.http.routers.whoami.entrypoints=web"
