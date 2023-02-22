@@ -7,7 +7,14 @@ services:
     command:
       - "--log.level=DEBUG"
       - "--accesslog"
-      - "--accesslog.filepath=/var/log/traefik/access.log"
+      # - "--accesslog.filepath=/var/log/traefik/access.log"
+      # - --accesslog.format=json
+      - --accesslog.fields.defaultmode=keep
+      - --accesslog.fields.names.ClientUsername=drop
+      - --accesslog.fields.headers.defaultmode=keep
+      - --accesslog.fields.headers.names.User-Agent=redact
+      - --accesslog.fields.headers.names.Authorization=drop
+      - --accesslog.fields.headers.names.Content-Type=keep
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -27,7 +34,8 @@ services:
     container_name: "simple-service"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.middlewares.cfdevicedetect.plugin.cfdevicedetect.autodetect=true"
+      - "traefik.http.middlewares.cfdevicedetect.plugin.traefik-cf-device-detector.autodetect=true"
+
       - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
       - "traefik.http.routers.whoami.middlewares=cfdevicedetect@docker"
       - "traefik.http.routers.whoami.entrypoints=web"
