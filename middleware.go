@@ -8,7 +8,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/mssola/useragent"
+	"github.com/mileusna/useragent"
 )
 
 const (
@@ -57,12 +57,12 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (mw *CfDeviceDetector) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	ua := useragent.New(req.Header.Get(UserAgentHeader))
+	ua := useragent.Parse(req.Header.Get(UserAgentHeader))
 
-	req.Header.Set(DeviceIsMobileHeader, strconv.FormatBool(ua.Mobile()))
-	req.Header.Set(DeviceIsDesktopHeader, strconv.FormatBool(!ua.Mobile()))
-	req.Header.Set(DeviceIsTabletHeader, strconv.FormatBool(false))
-	req.Header.Set(DeviceIsSmartTVHeader, strconv.FormatBool(false))
+	req.Header.Set(DeviceIsMobileHeader, strconv.FormatBool(ua.Mobile))
+	req.Header.Set(DeviceIsDesktopHeader, strconv.FormatBool(ua.Desktop))
+	req.Header.Set(DeviceIsTabletHeader, strconv.FormatBool(ua.Tablet))
+	req.Header.Set(DeviceIsSmartTVHeader, strconv.FormatBool(!ua.Tablet && !ua.Desktop && !ua.Mobile))
 
 	mw.next.ServeHTTP(rw, req)
 }
